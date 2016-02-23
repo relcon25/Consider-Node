@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ *ast consider node
  */
 public class AstConsiderNode extends AstNode {
 

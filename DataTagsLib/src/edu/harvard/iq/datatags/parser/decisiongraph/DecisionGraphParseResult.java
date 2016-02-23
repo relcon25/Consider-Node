@@ -200,6 +200,7 @@ public class DecisionGraphParseResult {
                     : C.head(astNodes).accept(new AstNode.Visitor<Node>() {
 
                 @Override
+                // build consider node from ast-consider-node 
                 public Node visit(AstConsiderNode astNode) {
                     CompoundValue topValue = topLevelType.createInstance();
                     SetNodeValueBuilder valueBuilder = new SetNodeValueBuilder(topValue);
