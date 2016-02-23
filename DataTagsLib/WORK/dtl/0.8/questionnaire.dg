@@ -1,18 +1,13 @@
-[set: Subject+=planet]
-[set: Greeting=hello]
 
-[when: 
-        {Subject+=planet:[set: X+=a] }
-        {Subject+=moon: [set: X+=b] }
-        {else:[set: X+=e]}
-]
 [consider: 
      {slot:Subject}
     {options:
-        {world:[set: X+=c] }
-        {moon: [set: X+=d] }
+        {world:[>wnc2< call: duh2]}
+
     }
-   { else: [set: X+=f]}<---------optional
+   { else: [>wnc< call: duh]}<---------optional
 ]
 
+[>duh< set: Subject+=world][end]
+[>duh2< set: Subject+=world]
 [end]

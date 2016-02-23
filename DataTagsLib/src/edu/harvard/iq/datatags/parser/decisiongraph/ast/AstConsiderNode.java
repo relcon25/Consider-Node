@@ -5,7 +5,6 @@ import java.util.Objects;
 
 /**
  *
- * @author Michael Bar-Sinai
  */
 public class AstConsiderNode extends AstNode {
 

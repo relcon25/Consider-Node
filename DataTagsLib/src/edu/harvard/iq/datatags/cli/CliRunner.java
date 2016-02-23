@@ -409,7 +409,7 @@ public class CliRunner {
 
                 @Override
                 public void visitImpl(ConsiderNode nd) throws DataTagsRuntimeException {
-                    printMsg("computing consider");
+                    printMsg("Computing consider");
                  }
 
                 @Override
