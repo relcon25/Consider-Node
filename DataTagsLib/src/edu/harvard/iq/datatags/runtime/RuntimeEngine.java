@@ -70,7 +70,8 @@ public class RuntimeEngine {
 
         @Override
         public Node visit(ConsiderNode nd) {
-            
+               // check any answer to be part of the current DataTags 
+               // return the node of the first write answer 
             for (ConsiderAnswer ans : nd.getAnswers()) {
                 CompoundValue answer = ans.getAnswer();
                 if (currentTags.isSupersetOf(answer)) {
