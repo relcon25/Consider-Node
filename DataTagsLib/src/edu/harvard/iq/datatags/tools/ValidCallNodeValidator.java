@@ -3,6 +3,7 @@ package edu.harvard.iq.datatags.tools;
 import edu.harvard.iq.datatags.model.graphs.DecisionGraph;
 import edu.harvard.iq.datatags.model.graphs.nodes.AskNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.CallNode;
+import edu.harvard.iq.datatags.model.graphs.nodes.ConsiderNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.EndNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.Node;
 import edu.harvard.iq.datatags.model.graphs.nodes.Node.VoidVisitor;
@@ -41,7 +42,10 @@ public class ValidCallNodeValidator extends VoidVisitor {
             validationMessages.add(new NodeValidationMessage(Level.ERROR, "Call node \"" + cn + "\" calls nonexistent node."));
         }
     }
-    
+    @Override
+    public void visitImpl (ConsiderNode cn) throws DataTagsRuntimeException {
+        // do nothing
+    }  
     @Override
     public void visitImpl (AskNode cn) throws DataTagsRuntimeException {
         // do nothing

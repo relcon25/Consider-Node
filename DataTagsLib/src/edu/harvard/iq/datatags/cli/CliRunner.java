@@ -10,6 +10,7 @@ import edu.harvard.iq.datatags.model.graphs.nodes.RejectNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.SetNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.TodoNode;
 import edu.harvard.iq.datatags.model.graphs.Answer;
+import edu.harvard.iq.datatags.model.graphs.nodes.ConsiderNode;
 import edu.harvard.iq.datatags.model.values.TagValue;
 import edu.harvard.iq.datatags.runtime.RuntimeEngine;
 import edu.harvard.iq.datatags.runtime.RuntimeEngineStatus;
@@ -59,7 +60,7 @@ public class CliRunner {
     private boolean printDebugMessages = false;
     private Path decisionGraphPath, tagSpacePath;
     private RuntimeEngineTracingListener tracer;
-    private final Parser<List<String>> cmdScanner = Scanners.many( c -> !Character.isWhitespace(c) ).source().sepBy( Scanners.WHITESPACES );
+    private final Parser<List<String>> cmdScanner = Scanners.many(c -> !Character.isWhitespace(c)).source().sepBy(Scanners.WHITESPACES);
 
     /**
      * A default command, in case a nonexistent command has been chosen.
@@ -102,13 +103,20 @@ public class CliRunner {
             ngn.setListener(tracer);
 
             while (true) {
-                if (ngn.getStatus() == RuntimeEngineStatus.Idle && ngn.start()) {
-                    while (ngn.getStatus() == RuntimeEngineStatus.Running
-                            && ngn.consume(promptUserForAnswer())) {
-                        println("");
+                try {
+                    if (ngn.getStatus() == RuntimeEngineStatus.Idle && ngn.start()) {
+                        while (ngn.getStatus() == RuntimeEngineStatus.Running
+                                && ngn.consume(promptUserForAnswer())) {
+                            println("");
+                        }
+                    }
+                    promptForCommand();
+                } catch (DataTagsRuntimeException dtre) {
+                    printWarning("Engine runtime error: %s", dtre.getMessage());
+                    if (printDebugMessages) {
+                        dtre.printStackTrace(System.out);
                     }
                 }
-                promptForCommand();
             }
 
         } finally {
@@ -139,6 +147,11 @@ public class CliRunner {
 
         String ansText;
         while ((ansText = readLine("answer (? for help): ")) != null) {
+            ansText = ansText.trim();
+            if (ansText.isEmpty()) {
+                continue;
+            }
+
             Answer ans = Answer.Answer(ansText);
             if ((ngn.getCurrentNode() instanceof AskNode)
                     && (((AskNode) ngn.getCurrentNode()).getAnswers().contains(ans))) {
@@ -152,7 +165,7 @@ public class CliRunner {
 
             } else if (ansText.startsWith("\\")) {
                 try {
-                    List<String> args = cmdScanner.parse( ansText );
+                    List<String> args = cmdScanner.parse(ansText);
                     commands.getOrDefault(args.get(0).substring(1), COMMAND_NOT_FOUND).execute(this, args);
                     println("");
 
@@ -175,17 +188,22 @@ public class CliRunner {
      */
     void promptForCommand() throws IOException {
         String userChoice = readLine("Command (? for help): ");
-        if ( userChoice == null ) return;
+        if (userChoice == null) {
+            return;
+        }
         userChoice = userChoice.trim();
-        
-        if ( userChoice.equals("?")) {
+        if (userChoice.isEmpty()) {
+            return;
+        }
+
+        if (userChoice.equals("?")) {
             println("Please type one of the following commands:"
                     + "");
             commands.entrySet().stream().sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
                     .forEach(e -> println("\\%s:\n%s", e.getKey(), indent(e.getValue().description())));
 
         } else {
-            if ( userChoice.startsWith("\\")) {
+            if (userChoice.startsWith("\\")) {
                 userChoice = userChoice.substring(1);
             }
             try {
@@ -195,12 +213,12 @@ public class CliRunner {
 
             } catch (Exception ex) {
                 printWarning("Error executing the command: " + ex.getMessage());
-                if ( printDebugMessages ) {
+                if (printDebugMessages) {
                     Logger.getLogger(CliRunner.class.getName()).log(Level.SEVERE, "Java stack trace:", ex);
                 }
             }
 
-        } 
+        }
     }
 
     public void printCurrentAskNode() {
@@ -390,6 +408,11 @@ public class CliRunner {
             node.accept(new Node.VoidVisitor() {
 
                 @Override
+                public void visitImpl(ConsiderNode nd) throws DataTagsRuntimeException {
+                    printMsg("computing consider");
+                 }
+
+                @Override
                 public void visitImpl(AskNode nd) throws DataTagsRuntimeException {
                 }
 
@@ -432,7 +455,7 @@ public class CliRunner {
                 printTitle("Final Tags");
                 dumpTagValue(ngn.getCurrentTags());
             } else if (ngn.getStatus() == RuntimeEngineStatus.Error) {
-                printWarning("Runtime engine in ERROR mode: %s");
+                printWarning("Runtime engine in ERROR mode");
             }
         }
 

@@ -10,6 +10,8 @@ import edu.harvard.iq.datatags.model.graphs.nodes.RejectNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.SetNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.TodoNode;
 import edu.harvard.iq.datatags.model.graphs.Answer;
+import edu.harvard.iq.datatags.model.graphs.ConsiderAnswer;
+import edu.harvard.iq.datatags.model.graphs.nodes.ConsiderNode;
 import edu.harvard.iq.datatags.runtime.exceptions.DataTagsRuntimeException;
 import edu.harvard.iq.datatags.tools.ValidationMessage.Level;
 import java.util.HashSet;
@@ -54,7 +56,17 @@ public class UnreachableNodeValidator extends VoidVisitor {
         return validationMessages;
     }
     
-    
+    @Override
+    public void visitImpl(ConsiderNode nd) throws DataTagsRuntimeException {
+        if (!reachedNodeIds.contains(nd.getId())) {
+            reachedNodeIds.add(nd.getId());
+        }
+        for (ConsiderAnswer answer : nd.getAnswers()) {
+            if (!reachedNodeIds.contains(nd.getNodeFor(answer).getId())) {
+                nd.getNodeFor(answer).accept(this);
+            }
+        }
+    }
     /**
      * Check that the ask node and its answer nodes have not already been
      * traversed before iterating and recursing.

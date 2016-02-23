@@ -10,6 +10,8 @@ import edu.harvard.iq.datatags.model.graphs.nodes.SetNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.ThroughNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.TodoNode;
 import edu.harvard.iq.datatags.model.graphs.Answer;
+import edu.harvard.iq.datatags.model.graphs.ConsiderAnswer;
+import edu.harvard.iq.datatags.model.graphs.nodes.ConsiderNode;
 import edu.harvard.iq.datatags.runtime.exceptions.DataTagsRuntimeException;
 import java.util.Set;
 import java.util.TreeSet;
@@ -36,7 +38,17 @@ public class EndNodeOptimizer implements FlowChartOptimizer {
         
         // now traverse the chart and replace all.
         Node.VoidVisitor traversor = new Node.VoidVisitor() {
-
+           
+            @Override
+            public void visitImpl(ConsiderNode nd) throws DataTagsRuntimeException {
+                for ( ConsiderAnswer a : nd.getAnswers() ) {
+                    Node ansNode = nd.getNodeFor(a);
+                    if ( shouldReplace(ansNode) ) {
+                        fcs.remove(ansNode);
+                        nd.setNodeFor(a, end);
+                    }
+                }
+            }    
             @Override
             public void visitImpl(AskNode nd) throws DataTagsRuntimeException {
                 for ( Answer a : nd.getAnswers() ) {

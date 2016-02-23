@@ -1,0 +1,14 @@
+[set: Greeting=hello]
+[when: Greeting ==hello
+  {ans:
+    {yes: [set:  Subject +=world] }
+    {no: [set:  Subject +=planet] }
+  }
+]
+[set:  Subject +=planet]
+[consider: Subject 
+  {ans:
+    {world,planet: [set:  Subject +=moon] }
+    {else: [set:  Subject +=planet] }
+  }
+]

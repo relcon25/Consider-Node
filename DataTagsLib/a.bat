@@ -1,0 +1,1 @@
+java -jar dist/DataTagsLib.jar path/to/hello-world.ts path/to/hello-world.dg

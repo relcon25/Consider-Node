@@ -3,6 +3,7 @@ package edu.harvard.iq.datatags.tools;
 import edu.harvard.iq.datatags.model.graphs.DecisionGraph;
 import edu.harvard.iq.datatags.model.graphs.nodes.AskNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.CallNode;
+import edu.harvard.iq.datatags.model.graphs.nodes.ConsiderNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.EndNode;
 import edu.harvard.iq.datatags.model.graphs.nodes.Node.VoidVisitor;
 import edu.harvard.iq.datatags.model.graphs.nodes.RejectNode;
@@ -27,7 +28,10 @@ public class QuestionnaireTagValues extends VoidVisitor {
         dg.nodes().forEach( a -> a.accept(this));
         return usedTagValues;
     }
-
+    @Override
+    public void visitImpl(ConsiderNode nd) throws DataTagsRuntimeException {
+        // do nothing
+    }
     @Override
     public void visitImpl(AskNode nd) throws DataTagsRuntimeException {
         // do nothing
