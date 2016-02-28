@@ -8,7 +8,9 @@ import edu.harvard.iq.datatags.model.types.CompoundType;
 import edu.harvard.iq.datatags.model.graphs.Answer;
 import static edu.harvard.iq.datatags.model.graphs.Answer.NO;
 import static edu.harvard.iq.datatags.model.graphs.Answer.YES;
+import edu.harvard.iq.datatags.model.graphs.ConsiderAnswer;
 import edu.harvard.iq.datatags.model.graphs.nodes.ConsiderNode;
+import edu.harvard.iq.datatags.model.values.CompoundValue;
 import edu.harvard.iq.datatags.runtime.exceptions.DataTagsRuntimeException;
 import edu.harvard.iq.datatags.runtime.listeners.RuntimeEngineSilentListener;
 import static edu.harvard.iq.datatags.util.CollectionHelper.C;
@@ -50,12 +52,14 @@ public class RuntimeEngineStateTest {
 
     @Test
     public void testSnapshots() {
+        CompoundType ct = new CompoundType("considerAnswer", "");
+        CompoundValue tags = ct.createInstance();
         String chartId = "rec";
         DecisionGraph dg = linearYesChart(chartId, 3);
         dg.setTopLevelType(new CompoundType("", ""));
         AskNode n2 = (AskNode) dg.getNode(chartId + "_2");
         ConsiderNode consider = n2.setNodeFor(NO, dg.add(new ConsiderNode("1", null)));
-        CallNode caller = consider.setNodeFor(NO, dg.add(new CallNode("Caller")));
+        CallNode caller = consider.setNodeFor(ConsiderAnswer.get(tags), dg.add(new CallNode("Caller")));
         caller.setCalleeNodeId(chartId + "_1");
         caller.setNextNode(new EndNode("CallerEnd"));
 
