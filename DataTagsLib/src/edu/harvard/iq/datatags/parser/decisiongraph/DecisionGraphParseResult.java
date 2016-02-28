@@ -254,6 +254,7 @@ public class DecisionGraphParseResult {
                                 throw new RuntimeException(" (at node " + astNode + ")");
                             }
                             CompoundValue answer = topValue;
+                            if(res.getNodeFor(ConsiderAnswer.Answer(answer))==null)
                             res.setNodeFor(ConsiderAnswer.Answer(answer), buildNodes(astAns.getSubGraph(), syntacticallyNext));
 
                         }
