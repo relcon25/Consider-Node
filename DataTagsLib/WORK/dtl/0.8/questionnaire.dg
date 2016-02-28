@@ -1,6 +1,5 @@
 [set: Subject+=planet]
 
-
 [when: 
         {Subject+=planet:[set: X+=a] }
         {Subject+=moon: [set: X+=b] }
