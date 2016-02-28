@@ -162,7 +162,7 @@ public class DecisionGraphParseResultTest {
         tags.set(t2.createInstance());
         ((AggregateValue) tags.get(t2)).add(t2Items.valueOf("world"));
 
-        ConsiderNode start = new ConsiderNode("1", emptyTagSpace, whyNotCallNode);
+        ConsiderNode start = new ConsiderNode("1", whyNotCallNode);
         start.setNodeFor(ConsiderAnswer.get(tags), whyNotCallNode2);
         DecisionGraph expected = new DecisionGraph();
         expected.add(whyNotCallNode);

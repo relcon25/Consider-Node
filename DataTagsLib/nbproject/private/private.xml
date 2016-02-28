@@ -28,11 +28,8 @@
             <file>file:/Users/michael/Documents/PhD/IQSS/Data-Tags/DataTaggingLibrary/DataTagsLib/src/edu/harvard/iq/datatags/mains/DecisionGraphCliRunner.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/User/Downloads/DT3.1/DataTaggingLibrary/DataTagsLib/src/edu/harvard/iq/datatags/model/graphs/nodes/ConsiderNode.java</file>
             <file>file:/C:/Users/User/Downloads/DT3.1/DataTaggingLibrary/DataTagsLib/src/edu/harvard/iq/datatags/parser/decisiongraph/DecisionGraphParseResult.java</file>
-            <file>file:/C:/Users/User/Downloads/DT3.1/DataTaggingLibrary/DataTagsLib/test/edu/harvard/iq/datatags/parser/decisiongraph/DecisionGraphParseResultTest.java</file>
-            <file>file:/C:/Users/User/Downloads/DT3.1/DataTaggingLibrary/DataTagsLib/src/edu/harvard/iq/datatags/model/graphs/ConsiderAnswer.java</file>
-            <file>file:/C:/Users/User/Downloads/DT3.1/DataTaggingLibrary/DataTagsLib/src/edu/harvard/iq/datatags/mains/DecisionGraphCliRunner.java</file>
+            <file>file:/C:/Users/User/Downloads/DT3.1/DataTaggingLibrary/DataTagsLib/src/edu/harvard/iq/datatags/parser/decisiongraph/DecisionGraphTerminalParser.java</file>
         </group>
     </open-files>
 </project-private>

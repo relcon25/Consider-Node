@@ -1,5 +1,5 @@
 [set: Subject+=planet]
-[set: Greeting=hello]
+
 
 [when: 
         {Subject+=planet:[set: X+=a] }

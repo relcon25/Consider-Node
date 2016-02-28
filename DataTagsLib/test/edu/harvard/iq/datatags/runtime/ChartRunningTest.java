@@ -48,11 +48,11 @@ public class ChartRunningTest {
         DecisionGraph c1 = new DecisionGraph(flowChartName);
         CompoundType ct = new CompoundType("topLevel", "");
         CompoundValue tags = ct.createInstance();
-        ConsiderNode start = c1.add(new ConsiderNode("1", null, null));
+        ConsiderNode start = c1.add(new ConsiderNode("1",  null));
 
-        start.setNodeFor(ConsiderAnswer.get(tags), c1.add(new ConsiderNode("2", null, null)))
-                .setNodeFor(ConsiderAnswer.get(tags), c1.add(new ConsiderNode("3", null, null)))
-                .setNodeFor(ConsiderAnswer.get(tags), c1.add(new ConsiderNode("4", null, null)))
+        start.setNodeFor(ConsiderAnswer.get(tags), c1.add(new ConsiderNode("2", null)))
+                .setNodeFor(ConsiderAnswer.get(tags), c1.add(new ConsiderNode("3",  null)))
+                .setNodeFor(ConsiderAnswer.get(tags), c1.add(new ConsiderNode("4",  null)))
                 .setNodeFor(ConsiderAnswer.get(tags), c1.add(new EndNode("END")));
 
         c1.setStart(start);

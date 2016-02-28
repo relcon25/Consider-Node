@@ -210,7 +210,7 @@ public class DecisionGraphParseResult {
                     if (astNode.getElseNode() != null) {
                         elseNode = buildNodes(astNode.getElseNode(), syntacticallyNext);
                     }
-                    ConsiderNode res = new ConsiderNode(astNode.getId(), topLevelType, elseNode);
+                    ConsiderNode res = new ConsiderNode(astNode.getId(), elseNode);
 
                     TagType slot = findSlot(astNode.getSlot(), topValue, valueBuilder);
 

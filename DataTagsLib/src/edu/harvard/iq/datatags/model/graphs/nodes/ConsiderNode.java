@@ -21,7 +21,7 @@ public class ConsiderNode extends Node {
     private final Map<ConsiderAnswer, Node> nextNodeByAnswer = new HashMap<>();
     private final Node _elseNode;
 
-    public ConsiderNode(String id, TagType slot, Node elseNode) {
+    public ConsiderNode(String id, Node elseNode) {
         super(id);
         _elseNode = elseNode;
 
